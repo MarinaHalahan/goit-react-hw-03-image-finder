@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import { GalleryList } from './ImageGallery.styled';
 import { GalleryItem } from '../GalleryItem/ImageGalleryItem';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+// import { ToastContainer, toast } from 'react-toastify';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 
 // import styled from 'styled-components';
@@ -21,7 +21,7 @@ export class App extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     try {
-      const { page, query, loading } = this.state;
+      const { page, query } = this.state;
 
       if (prevState.query !== query || prevState.page !== page) {
         this.setState({ loading: true });
@@ -68,7 +68,7 @@ export class App extends Component {
         {images.length > 0 && (
           <ButtonMore onClick={this.addOnePage}></ButtonMore>
         )}
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </div>
     );
   }
