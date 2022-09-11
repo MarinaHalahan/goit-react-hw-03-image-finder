@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-// import { ToastContainer, toast } from 'react-toastify';
 import { ImageGallery } from './ImageGallery/ImageGallery';
-
-// import styled from 'styled-components';
-// import PropTypes from 'prop-types';
 import Searchbar from './Searchbar/Searchbar';
 import { ButtonMore } from './Button/Button';
 import { fetchImage } from '../services/api';
 import { Loader } from './Loader/Loader';
+import Modal from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -17,6 +14,7 @@ export class App extends Component {
     images: [],
     error: null,
     loading: false,
+    largeImg: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -30,15 +28,17 @@ export class App extends Component {
         const images = data.hits;
 
         if (images.length === 0) {
-          alert('По Вашему запросу ничего не найдено');
+          alert('Nothing was found for your request');
           this.setState({ loading: false });
           return;
         }
+
         this.setState(prevState => ({
           total: data.totalHits,
           images: [...prevState.images, ...images],
+          loading: false,
+          error: null,
         }));
-        this.setState({ loading: false });
       }
     } catch (error) {
       this.setState({ error: error });
@@ -56,19 +56,36 @@ export class App extends Component {
     }
   };
 
+  openLargeImg = e => {
+    const { src } = e.target;
+
+    this.state.images.find(image => {
+      if (image.webformatURL === src) {
+        return this.setState({ largeImg: image.largeImageURL });
+      }
+    });
+  };
+
+  closeModal = () => {
+    this.setState({ largeImg: null });
+  };
+
   render() {
-    const { images, error, loading } = this.state;
+    const { images, error, loading, largeImg } = this.state;
     return (
       <div className="app">
+        {largeImg && <Modal onClick={this.closeModal}>{largeImg}</Modal>}
         <Searchbar onSubmit={this.addSearchWord} />
         {error && <span>"Try again later"</span>}
         {loading && <Loader />}
 
-        <ImageGallery images={images}></ImageGallery>
+        <ImageGallery
+          onClick={this.openLargeImg}
+          images={images}
+        ></ImageGallery>
         {images.length > 0 && (
           <ButtonMore onClick={this.addOnePage}></ButtonMore>
         )}
-        {/* <ToastContainer /> */}
       </div>
     );
   }

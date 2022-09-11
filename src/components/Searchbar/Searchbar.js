@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-// import { toast } from 'react-toastify';
-import {
-  Header,
-  SubmitButton,
-  ButtonLabel,
-  Form,
-  Input,
-} from './Searchbar.styled';
+import PropTypes from 'prop-types';
+import { CgSearch } from 'react-icons/cg';
+import { Header, SubmitButton, Form, Input } from './Searchbar.styled';
 
 export default class Searchbar extends Component {
   state = {
@@ -22,8 +17,7 @@ export default class Searchbar extends Component {
   handleSubmit = e => {
     e.preventDefault();
     if (this.state.query.trim() === '') {
-      alert('Введите значение для поиска');
-      //   toast(' Wow so easy!');
+      alert('Enter a search value');
       return;
     }
     this.props.onSubmit(this.state);
@@ -41,7 +35,7 @@ export default class Searchbar extends Component {
       <Header className="searchbar">
         <Form onSubmit={this.handleSubmit}>
           <SubmitButton>
-            <ButtonLabel>Search</ButtonLabel>
+            <CgSearch size="2em" aria-label={'Image search'} />
           </SubmitButton>
           <Input
             onChange={this.handleChange}
@@ -57,3 +51,9 @@ export default class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+};
