@@ -61,8 +61,9 @@ export class App extends Component {
 
     this.state.images.find(image => {
       if (image.webformatURL === src) {
-        return this.setState({ largeImg: image.largeImageURL });
+        this.setState({ largeImg: image.largeImageURL });
       }
+      return;
     });
   };
 
