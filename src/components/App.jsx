@@ -59,11 +59,11 @@ export class App extends Component {
   openLargeImg = e => {
     const { src } = e.target;
 
-    this.state.images.find(image => {
-      if (image.webformatURL === src) {
-        this.setState({ largeImg: image.largeImageURL });
-      }
+    const image = this.state.images.find(image => {
+      return image.webformatURL === src;
     });
+
+    this.setState({ largeImg: image.largeImageURL });
   };
 
   closeModal = () => {
